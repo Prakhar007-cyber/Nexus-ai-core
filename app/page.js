@@ -1,65 +1,143 @@
-import Image from "next/image";
+import SmoothScroll from "@/components/SmoothScroll";
+import ScrollProgress from "@/components/ScrollProgress";
+import Nav from "@/components/Nav";
+import CinematicReel from "@/components/CinematicReel";
+import Footer from "@/components/Footer";
+
+// Callout coordinates are hand-placed against the source frame (1280x720)
+// at the point in the reel where the part is fully separated and settled —
+// see CinematicReel's updateCalloutPositions for how (x, y) maps onto the
+// cropped, cover-fit canvas at any viewport ratio.
+const TECHNOLOGY_CALLOUTS = [
+  {
+    label: "MACHINED CHASSIS",
+    sub: "Aerospace-grade unibody",
+    x: 680,
+    y: 185,
+    side: "right",
+    band: { start: 0.8, end: 1, fadeIn: 0.05, fadeOut: 0 },
+  },
+  {
+    label: "FRONT GLASS PANEL",
+    sub: "Optical-grade shielding",
+    x: 255,
+    y: 300,
+    side: "left",
+    band: { start: 0.83, end: 1, fadeIn: 0.05, fadeOut: 0 },
+  },
+  {
+    label: "THERMAL ARRAY",
+    sub: "Precision-milled cooling fins",
+    x: 412,
+    y: 380,
+    side: "left",
+    band: { start: 0.86, end: 1, fadeIn: 0.05, fadeOut: 0 },
+  },
+  {
+    label: "COPPER HEAT SPREADER",
+    sub: "Direct-contact thermal transfer",
+    x: 905,
+    y: 420,
+    side: "right",
+    band: { start: 0.89, end: 1, fadeIn: 0.05, fadeOut: 0 },
+  },
+  {
+    label: "AI CORE",
+    sub: "Neural processing unit",
+    x: 615,
+    y: 340,
+    side: "right",
+    band: { start: 0.92, end: 1, fadeIn: 0.05, fadeOut: 0 },
+  },
+];
+
+const ARCHITECTURE_CALLOUTS = [
+  {
+    label: "AI CORE",
+    sub: "Central neural die",
+    x: 645,
+    y: 355,
+    side: "right",
+    band: { start: 0.1, end: 0.24, fadeIn: 0.04, fadeOut: 0.05 },
+  },
+  {
+    label: "THERMAL MODULE",
+    sub: "Left interconnect array",
+    x: 285,
+    y: 360,
+    side: "left",
+    band: { start: 0.13, end: 0.24, fadeIn: 0.04, fadeOut: 0.05 },
+  },
+  {
+    label: "THERMAL MODULE",
+    sub: "Right interconnect array",
+    x: 1000,
+    y: 360,
+    side: "right",
+    band: { start: 0.16, end: 0.24, fadeIn: 0.04, fadeOut: 0.05 },
+  },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <SmoothScroll>
+      <ScrollProgress />
+      <Nav />
+      <main id="top">
+        <CinematicReel
+          id="technology"
+          ariaLabel="NEXUS AI Core — the processor, assembled and revealed"
+          frameFolder="/frames/section-1"
+          frameCount={240}
+          scrollVh={{ base: 6, mobile: 3.8 }}
+          heroEntrance
+          index="01"
+          total="03"
+          eyebrow="NEXUS COMPUTING"
+          heading={["INTELLIGENCE.", "ENGINEERED."]}
+          sub="A new architecture built to process intelligence at unprecedented scale."
+          textBand={{ start: 0, end: 0.1, fadeOut: 0.12 }}
+          videoBand={{ start: 0.04, end: 0.94 }}
+          callouts={TECHNOLOGY_CALLOUTS}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+
+        <CinematicReel
+          id="architecture"
+          ariaLabel="Inside the intelligence — the neural architecture at the core"
+          frameFolder="/frames/section-2"
+          frameCount={240}
+          scrollVh={{ base: 5.5, mobile: 3.6 }}
+          index="02"
+          total="03"
+          eyebrow="NEURAL ARCHITECTURE"
+          heading={["THINKING", "AT SCALE."]}
+          sub="Billions of connections. Millions of signals. One intelligent architecture."
+          textBand={{ start: 0.3, end: 0.55, fadeIn: 0.08, fadeOut: 0.1 }}
+          videoBand={{ start: 0.03, end: 0.92 }}
+          callouts={ARCHITECTURE_CALLOUTS}
+        />
+
+        <CinematicReel
+          id="intelligence"
+          ariaLabel="Data becomes intelligence — real-time signal processing"
+          frameFolder="/frames/section-3"
+          frameCount={240}
+          scrollVh={{ base: 6.5, mobile: 4.2 }}
+          index="03"
+          total="03"
+          eyebrow="REAL-TIME INTELLIGENCE"
+          heading={["FROM SIGNAL", "TO INSIGHT."]}
+          sub="Transforming millions of simultaneous data points into structured intelligence in real time."
+          textBand={{ start: 0.12, end: 0.35, fadeIn: 0.06, fadeOut: 0.1 }}
+          videoBand={{ start: 0.03, end: 0.75 }}
+          endReveal={{
+            band: { start: 0.82, end: 1, fadeIn: 0.1, fadeOut: 0 },
+            heading: ["THE FUTURE", "THINKS FASTER."],
+            cta: "Explore NEXUS",
+          }}
+        />
       </main>
-    </div>
+      <Footer />
+    </SmoothScroll>
   );
 }
